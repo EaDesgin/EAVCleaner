@@ -13,6 +13,7 @@ class CleanUpRemovedStoreViewValuesCommand extends AbstractCommand
         $this
             ->setName('eav:clean:removed-store-view-values')
             ->setDescription('Clean up values from removed store views')
+            ->addOption('no-question')
             ->addOption('dry-run');
     }
 
@@ -28,8 +29,9 @@ class CleanUpRemovedStoreViewValuesCommand extends AbstractCommand
         $this->_output = $output;
 
         $isDryRun = $input->getOption('dry-run');
+        $isNoQuestion = $input->getOption('no-question');
 
-        if(!$isDryRun) {
+        if(!$isDryRun && !$isNoQuestion) {
             $output->writeln('WARNING: this is not a dry run. If you want to do a dry-run, add --dry-run.');
             $question = new ConfirmationQuestion('Are you sure you want to continue? [No] ', false);
 

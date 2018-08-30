@@ -13,6 +13,7 @@ class RestoreUseDefaultValueConfigCommand extends AbstractCommand
         $this
             ->setName('eav:config:restore-use-default-value')
             ->setDescription("Restore config's 'Use Default Value' if the non-global value is the same as the global value")
+            ->addOption('no-question')
             ->addOption('dry-run');
     }
 
@@ -28,8 +29,9 @@ class RestoreUseDefaultValueConfigCommand extends AbstractCommand
         $this->_output = $output;
 
         $isDryRun = $input->getOption('dry-run');
+        $isNoQuestion = $input->getOption('no-question');
 
-        if(!$isDryRun) {
+        if(!$isDryRun && !$isNoQuestion) {
             $output->writeln('WARNING: this is not a dry run. If you want to do a dry-run, add --dry-run.');
             $question = new ConfirmationQuestion('Are you sure you want to continue? [No] ', false);
 

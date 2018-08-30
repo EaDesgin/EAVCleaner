@@ -16,6 +16,7 @@ class CleanUpEntityTypeValuesCommand extends AbstractCommand
             ->setName('eav:clean:entity-type-values')
             ->setDescription('Remove attribute values with wrong entity_type_id')
             ->addOption('dry-run')
+            ->addOption('no-question')
             ->addOption(
                 'format',
                 null,
@@ -36,8 +37,9 @@ class CleanUpEntityTypeValuesCommand extends AbstractCommand
         $this->_output = $output;
 
         $isDryRun = $input->getOption('dry-run');
+        $isNoQuestion = $input->getOption('no-question');
 
-        if(!$isDryRun) {
+        if(!$isDryRun && !$isNoQuestion) {
             $output->writeln('WARNING: this is not a dry run. If you want to do a dry-run, add --dry-run.');
             $question = new ConfirmationQuestion('Are you sure you want to continue? [No] ', false);
 
