@@ -16,6 +16,7 @@ class CleanUpAttributesAndValuesWithoutParentCommand extends AbstractCommand
             ->setName('eav:clean:attributes-and-values-without-parent')
             ->setDescription('Remove catalog_eav_attribute and attribute values which are missing parent entry in eav_attribute')
             ->addOption('dry-run')
+            ->addOption('no-question')
             ->addOption(
                 'format',
                 null,
@@ -36,8 +37,9 @@ class CleanUpAttributesAndValuesWithoutParentCommand extends AbstractCommand
         $this->_output = $output;
 
         $isDryRun = $input->getOption('dry-run');
+        $isNoQuestion = $input->getOption('no-question');
 
-        if(!$isDryRun) {
+        if(!$isDryRun && !$isNoQuestion) {
             $output->writeln('WARNING: this is not a dry run. If you want to do a dry-run, add --dry-run.');
             $question = new ConfirmationQuestion('Are you sure you want to continue? [No] ', false);
 

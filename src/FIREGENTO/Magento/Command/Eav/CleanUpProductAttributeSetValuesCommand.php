@@ -20,6 +20,7 @@ class CleanUpProductAttributeSetValuesCommand extends AbstractCommand
         $this
             ->setName('eav:clean:product-attribute-set-values')
             ->setDescription('Remove extra attributes values if they are not linked to product attribute set')
+            ->addOption('no-question')
             ->addOption('dry-run');
     }
 
@@ -42,13 +43,14 @@ class CleanUpProductAttributeSetValuesCommand extends AbstractCommand
         $this->_output = $output;
 
         $this->_isDryRun = $input->getOption('dry-run');
+        $isNoQuestion = $input->getOption('no-question');
 
         if (!$this->_isDryRun) {
             $output->writeln('WARNING: this is not a dry run. If you want to do a dry-run, add --dry-run.');
             $question = new ConfirmationQuestion('Are you sure you want to continue? [No] ', false);
 
             $this->questionHelper = $this->getHelper('question');
-            if (!$this->questionHelper->ask($input, $output, $question)) {
+            if (!$this->questionHelper->ask($input, $output, $question) && !$isNoQuestion) {
                 return;
             }
         }
